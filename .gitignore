@@ -1,0 +1,12 @@
+node_modules/
+venv/
+outputs/
+*.log
+.env
+.DS_Store
+__pycache__/
+*.pyc
+
+# Dados privados — ficam no volume persistente do Railway
+server/data/usuarios.json
+server/data/orcamentos.json

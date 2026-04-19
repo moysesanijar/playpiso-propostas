@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlayPiso Propostas</title>
+  <link rel="stylesheet" href="style.css?v=4" />
+</head>
+<body>
+
+<!-- ============================================================
+     Tela de login (full-screen, mostrada quando não autenticado)
+     ============================================================ -->
+<div id="view-login" class="login-screen" hidden>
+  <div class="login-card">
+    <div class="login-brand">
+      <span class="login-dot"></span>
+      <span class="login-brand-name">PlayPiso</span>
+    </div>
+    <p class="login-subtitle">Sistema de Propostas Comerciais</p>
+
+    <!-- Formulário de Login -->
+    <form id="form-login">
+      <div class="field">
+        <label>E-mail</label>
+        <input type="email" id="login-email" placeholder="voce@playpiso.com.br" autocomplete="email" required />
+      </div>
+      <div class="field">
+        <label>Senha</label>
+        <input type="password" id="login-senha" placeholder="••••••••" autocomplete="current-password" required />
+      </div>
+      <div id="login-erro" class="login-erro" hidden></div>
+      <button type="submit" class="btn-primary btn-block" id="btn-login">Entrar</button>
+    </form>
+
+    <div class="login-switch">
+      Não tem conta?
+      <button class="link-btn" onclick="app.mostrarCadastro()">Criar conta</button>
+    </div>
+
+    <!-- Formulário de Cadastro -->
+    <form id="form-cadastro" hidden>
+      <div class="field">
+        <label>Nome completo</label>
+        <input type="text" id="cad-nome" placeholder="João Silva" autocomplete="name" required />
+      </div>
+      <div class="field">
+        <label>E-mail corporativo</label>
+        <input type="email" id="cad-email" placeholder="voce@playpiso.com.br" autocomplete="email" required />
+      </div>
+      <div class="field">
+        <label>Senha</label>
+        <input type="password" id="cad-senha" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required />
+      </div>
+      <div id="cad-erro" class="login-erro" hidden></div>
+      <button type="submit" class="btn-primary btn-block" id="btn-cadastro">Criar conta</button>
+    </form>
+
+    <div class="login-switch" id="switch-login" hidden>
+      Já tem conta?
+      <button class="link-btn" onclick="app.mostrarLogin()">Entrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     Offline banner
+     ============================================================ -->
+<div id="offline-banner">Sem conexão com o servidor</div>
+
+<!-- ============================================================
+     Topbar
+     ============================================================ -->
+<header class="topbar">
+  <div class="topbar-logo">
+    <span class="dot"></span>
+    PlayPiso
+  </div>
+
+  <nav class="topbar-nav">
+    <button class="nav-tab active" data-view="nova" onclick="app.switchView('nova')">
+      Nova Proposta
+    </button>
+    <button class="nav-tab" data-view="orcamentos" onclick="app.switchView('orcamentos')">
+      Orçamentos
+      <span class="badge" id="badge-pendentes"></span>
+    </button>
+    <button class="nav-tab" data-view="historico" onclick="app.switchView('historico')">
+      Histórico
+    </button>
+  </nav>
+
+  <div class="avatar-wrapper" id="avatar-wrapper">
+    <div class="topbar-avatar" id="avatar-initials" onclick="app.toggleAvatarMenu()"></div>
+    <div class="avatar-menu" id="avatar-menu" hidden>
+      <div class="avatar-menu-nome" id="avatar-menu-nome"></div>
+      <div class="avatar-menu-email" id="avatar-menu-email"></div>
+      <hr class="avatar-menu-sep">
+      <button class="avatar-menu-item" onclick="app.logout()">Sair</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     App body
+     ============================================================ -->
+<div class="app-body">
+
+  <!-- ===========================================================
+       View 1 — Nova Proposta
+       =========================================================== -->
+  <div class="view view-nova active" id="view-nova">
+
+    <!-- Dados do Cliente -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="section-title">Dados do Cliente</div>
+
+      <div class="grid-2" style="margin-bottom:10px">
+        <div class="field">
+          <label>Nome / Razão Social *</label>
+          <input type="text" id="f-nome_cliente" placeholder="Arena Sports Ltda" />
+          <span class="field-error" id="err-nome_cliente">Campo obrigatório</span>
+        </div>
+        <div class="field">
+          <label>CNPJ / CPF</label>
+          <input type="text" id="f-cnpj_cpf" placeholder="00.000.000/0001-00" />
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-bottom:10px">
+        <div class="field">
+          <label>Contato *</label>
+          <input type="text" id="f-contato" placeholder="João Silva" />
+          <span class="field-error" id="err-contato">Campo obrigatório</span>
+        </div>
+        <div class="field">
+          <label>Telefone *</label>
+          <input type="tel" id="f-telefone" placeholder="(11) 99999-0000" />
+          <span class="field-error" id="err-telefone">Campo obrigatório</span>
+        </div>
+        <div class="field">
+          <label>E-mail</label>
+          <input type="email" id="f-email" placeholder="contato@arena.com" />
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:10px">
+        <div class="field">
+          <label>Endereço</label>
+          <input type="text" id="f-endereco" placeholder="Rua das Quadras, 123" />
+        </div>
+        <div class="field">
+          <label>Local da Obra *</label>
+          <input type="text" id="f-local_obra" placeholder="Itaim Bibi, São Paulo" />
+          <span class="field-error" id="err-local_obra">Campo obrigatório</span>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="field">
+          <label>Cidade</label>
+          <input type="text" id="f-cidade" placeholder="São Paulo" />
+        </div>
+        <div class="field">
+          <label>Estado</label>
+          <input type="text" id="f-estado" placeholder="SP" maxlength="2" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Dados Comerciais -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="section-title">Dados Comerciais</div>
+      <div class="grid-4">
+        <div class="field">
+          <label>Vendedor</label>
+          <input type="text" id="f-vendedor" readonly style="opacity:0.65;cursor:default" />
+        </div>
+        <div class="field">
+          <label>Nº Proposta</label>
+          <input type="text" id="f-numero_proposta" placeholder="Gerado automaticamente" readonly style="opacity:0.5" />
+        </div>
+        <div class="field">
+          <label>Data da Proposta</label>
+          <input type="date" id="f-data_solicitacao" />
+        </div>
+        <div class="field">
+          <label>Data de Validade</label>
+          <input type="date" id="f-data_envio" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Quadras -->
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px">
+      <div class="section-title" style="margin-bottom:0">Quadras</div>
+      <button class="btn-outline btn-sm" onclick="app.addItem()">+ Adicionar quadra</button>
+    </div>
+
+    <div id="items-container"></div>
+
+    <!-- Footer bar de ações -->
+    <div class="footer-bar">
+      <button class="btn-outline" onclick="app.abrirBriefing()">Visualizar briefing</button>
+      <button class="btn-primary" onclick="app.salvarProposta()">Salvar proposta</button>
+    </div>
+
+  </div><!-- /view-nova -->
+
+  <!-- ===========================================================
+       View 2 — Orçamentos
+       =========================================================== -->
+  <div class="view view-orcamentos" id="view-orcamentos">
+
+    <!-- Painel esquerdo — lista -->
+    <div class="panel-lista">
+      <div class="panel-lista-header">
+        <div class="panel-lista-filtros" id="filtros-status">
+          <button class="filtro-btn active" data-status="todos" onclick="app.setFiltro('todos')">Todos</button>
+          <button class="filtro-btn" data-status="pendente" onclick="app.setFiltro('pendente')">Pendentes</button>
+          <button class="filtro-btn" data-status="em_orcamento" onclick="app.setFiltro('em_orcamento')">Em orçamento</button>
+          <button class="filtro-btn" data-status="concluido" onclick="app.setFiltro('concluido')">Concluídos</button>
+        </div>
+      </div>
+      <div class="panel-lista-items" id="lista-propostas"></div>
+    </div>
+
+    <!-- Painel direito — detalhe -->
+    <div class="panel-detalhe" id="panel-detalhe">
+      <div class="panel-detalhe-vazio" id="detalhe-vazio">
+        <div class="icon">📋</div>
+        <div>Selecione uma proposta</div>
+      </div>
+      <div id="detalhe-conteudo" style="display:none"></div>
+    </div>
+
+  </div><!-- /view-orcamentos -->
+
+  <!-- ===========================================================
+       View 3 — Histórico
+       =========================================================== -->
+  <div class="view view-historico" id="view-historico">
+    <div class="historico-busca">
+      <div class="section-title">Histórico de Propostas</div>
+      <input type="text" id="historico-busca" placeholder="Buscar por nome ou nº proposta…" oninput="app.filtrarHistorico()" style="max-width:320px; margin-top:8px" />
+    </div>
+    <div class="historico-lista" id="historico-lista"></div>
+  </div>
+
+</div><!-- /app-body -->
+
+<!-- ============================================================
+     Modal de briefing
+     ============================================================ -->
+<dialog id="modal-briefing">
+  <div class="modal-header">
+    <h2>Revisão da Proposta</h2>
+    <button class="modal-close" onclick="document.getElementById('modal-briefing').close()">×</button>
+  </div>
+  <div class="modal-body" id="modal-briefing-body"></div>
+  <div class="modal-footer">
+    <button class="btn-outline" onclick="document.getElementById('modal-briefing').close()">Voltar e editar</button>
+    <button class="btn-primary" onclick="app.confirmarSalvar()">Confirmar e salvar</button>
+  </div>
+</dialog>
+
+<!-- Modal de detalhe no histórico -->
+<dialog id="modal-historico">
+  <div class="modal-header">
+    <h2 id="modal-historico-titulo">Proposta</h2>
+    <button class="modal-close" onclick="document.getElementById('modal-historico').close()">×</button>
+  </div>
+  <div class="modal-body" id="modal-historico-body"></div>
+  <div class="modal-footer">
+    <button class="btn-outline" onclick="document.getElementById('modal-historico').close()">Fechar</button>
+  </div>
+</dialog>
+
+<!-- ============================================================
+     Loading overlay
+     ============================================================ -->
+<div id="loading-overlay" hidden>
+  <div class="spinner"></div>
+</div>
+
+<!-- ============================================================
+     Toast container
+     ============================================================ -->
+<div id="toast-container"></div>
+
+<script src="app.js?v=4"></script>
+</body>
+</html>

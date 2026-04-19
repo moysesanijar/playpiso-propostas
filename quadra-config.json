@@ -1,0 +1,174 @@
+{
+  "tipos": [
+    {
+      "id": "futsal",
+      "label": "Futsal",
+      "secoes": ["dimensoes", "condicoes", "alambrado", "iluminacao", "materiais_pedreira"]
+    },
+    {
+      "id": "beach_tennis",
+      "label": "Beach Tennis",
+      "secoes": ["dimensoes", "condicoes", "alambrado_simples", "iluminacao"]
+    },
+    {
+      "id": "poliesportiva",
+      "label": "Poliesportiva",
+      "secoes": ["dimensoes", "condicoes", "alambrado_sem_telas", "iluminacao", "materiais_pedreira"]
+    },
+    {
+      "id": "tenis_asfaltica",
+      "label": "Tênis Asfáltica",
+      "secoes": ["dimensoes", "condicoes", "alambrado", "iluminacao", "materiais_pedreira"]
+    },
+    {
+      "id": "tenis_cushion",
+      "label": "Tênis Asfáltica - Cushion",
+      "secoes": ["dimensoes", "condicoes", "alambrado", "iluminacao", "materiais_pedreira"]
+    },
+    {
+      "id": "tenis_saibro",
+      "label": "Tênis Saibro",
+      "secoes": ["dimensoes", "condicoes", "alambrado", "iluminacao", "materiais_pedreira"]
+    }
+  ],
+  "secoes": {
+    "dimensoes": {
+      "titulo": "Dimensões",
+      "campos": [
+        { "id": "quantidade", "label": "Quantidade", "tipo": "number", "min": 1, "step": 1, "default": 1, "required": true },
+        { "id": "comprimento", "label": "Comprimento (m)", "tipo": "number", "min": 0, "step": 0.5, "default": 40, "required": true },
+        { "id": "largura", "label": "Largura (m)", "tipo": "number", "min": 0, "step": 0.5, "default": 20, "required": true }
+      ]
+    },
+    "condicoes": {
+      "titulo": "Condições",
+      "campos": [
+        {
+          "id": "dificuldade_acesso",
+          "label": "Dificuldade de acesso",
+          "tipo": "radio",
+          "opcoes": ["Fácil", "Difícil", "Muito difícil"],
+          "default": "Fácil"
+        },
+        {
+          "id": "material_pedreira",
+          "label": "Material de pedreira",
+          "tipo": "radio",
+          "opcoes": ["Cliente", "PlayPiso"],
+          "default": "Cliente"
+        },
+        {
+          "id": "tipo_terreno",
+          "label": "Tipo de terreno",
+          "tipo": "radio",
+          "opcoes": ["Terreno", "Laje"],
+          "default": "Terreno"
+        }
+      ]
+    },
+    "alambrado": {
+      "titulo": "Alambrado",
+      "campos": [
+        { "id": "alambrado_altura", "label": "Altura (m)", "tipo": "number", "min": 0, "step": 0.5, "default": 4 },
+        { "id": "alambrado_comprimento", "label": "Comprimento (m)", "tipo": "number", "min": 0, "step": 0.5, "default": null, "vinculado_a": "comprimento" },
+        { "id": "alambrado_largura", "label": "Largura (m)", "tipo": "number", "min": 0, "step": 0.5, "default": null, "vinculado_a": "largura" },
+        {
+          "id": "galvanizacao",
+          "label": "Galvanização",
+          "tipo": "select",
+          "opcoes": ["A fogo", "Eletrolítico"],
+          "default": "A fogo"
+        },
+        {
+          "id": "coligadas",
+          "label": "Coligadas",
+          "tipo": "select",
+          "opcoes": ["Laterais", "Fundos"],
+          "default": "Laterais"
+        },
+        {
+          "id": "tipo_estrutura",
+          "label": "Tipo de estrutura",
+          "tipo": "select",
+          "opcoes": ["Trapézio", "Gaiola"],
+          "default": "Trapézio"
+        },
+        {
+          "id": "travamento_tipo",
+          "label": "Tipo de travamento",
+          "tipo": "radio",
+          "opcoes": ["Travamento Superior", "Travamento Intermediário", "Sem travamento"],
+          "default": "Travamento Superior"
+        },
+        { "id": "tela_superior", "label": "Tela superior", "tipo": "checkbox", "default": false },
+        { "id": "tela_sombreamento", "label": "Tela de sombreamento", "tipo": "checkbox", "default": false }
+      ]
+    },
+    "alambrado_simples": {
+      "titulo": "Alambrado",
+      "campos": [
+        { "id": "alambrado_altura", "label": "Altura da tela (m)", "tipo": "number", "min": 0, "step": 0.5, "default": 3 },
+        {
+          "id": "galvanizacao",
+          "label": "Galvanização",
+          "tipo": "select",
+          "opcoes": ["A fogo", "Eletrolítico"],
+          "default": "A fogo"
+        }
+      ]
+    },
+    "alambrado_sem_telas": {
+      "titulo": "Alambrado",
+      "campos": [
+        { "id": "alambrado_altura", "label": "Altura (m)", "tipo": "number", "min": 0, "step": 0.5, "default": 4 },
+        { "id": "alambrado_comprimento", "label": "Comprimento (m)", "tipo": "number", "min": 0, "step": 0.5, "default": null, "vinculado_a": "comprimento" },
+        { "id": "alambrado_largura", "label": "Largura (m)", "tipo": "number", "min": 0, "step": 0.5, "default": null, "vinculado_a": "largura" },
+        {
+          "id": "galvanizacao",
+          "label": "Galvanização",
+          "tipo": "select",
+          "opcoes": ["A fogo", "Eletrolítico"],
+          "default": "A fogo"
+        },
+        {
+          "id": "coligadas",
+          "label": "Coligadas",
+          "tipo": "select",
+          "opcoes": ["Laterais", "Fundos"],
+          "default": "Laterais"
+        },
+        {
+          "id": "tipo_estrutura",
+          "label": "Tipo de estrutura",
+          "tipo": "select",
+          "opcoes": ["Trapézio", "Gaiola"],
+          "default": "Trapézio"
+        }
+      ]
+    },
+    "iluminacao": {
+      "titulo": "Iluminação",
+      "campos": [
+        { "id": "iluminacao_quantidade", "label": "Qtd. projetores", "tipo": "number", "min": 0, "step": 1, "default": 0 },
+        { "id": "quantidade_postes", "label": "Qtd. postes", "tipo": "number", "min": 0, "step": 1, "default": 0 },
+        { "id": "potencia", "label": "Potência (W)", "tipo": "number", "min": 0, "step": 50, "default": 0 },
+        { "id": "altura_poste", "label": "Altura do poste (m)", "tipo": "number", "min": 0, "step": 0.5, "default": 0 },
+        { "id": "cruzeta_1", "label": "Cruzeta 1 (proj./poste)", "tipo": "number", "min": 0, "step": 1, "default": 0 },
+        { "id": "cruzeta_2", "label": "Cruzeta 2 (proj./poste)", "tipo": "number", "min": 0, "step": 1, "default": 0 }
+      ]
+    },
+    "materiais_pedreira": {
+      "titulo": "Materiais de Pedreira",
+      "condicional": { "campo": "material_pedreira", "valor": "PlayPiso" },
+      "campos": [
+        { "id": "qtd_blocos", "label": "Blocos (unid)", "tipo": "number", "min": 0, "step": 1, "default": 0 },
+        { "id": "qtd_areia_media", "label": "Areia média (m³)", "tipo": "number", "min": 0, "step": 0.5, "default": 0 },
+        { "id": "qtd_brita_1", "label": "Brita 1 (m³)", "tipo": "number", "min": 0, "step": 0.5, "default": 0 },
+        { "id": "qtd_po_de_pedra", "label": "Pó de pedra (m³)", "tipo": "number", "min": 0, "step": 0.5, "default": 0 },
+        { "id": "qtd_cimento", "label": "Cimento (sacos)", "tipo": "number", "min": 0, "step": 1, "default": 0 },
+        { "id": "qtd_lona_plastica", "label": "Lona plástica (m²)", "tipo": "number", "min": 0, "step": 1, "default": 0 },
+        { "id": "qtd_pedrisco_limpo", "label": "Pedrisco limpo (m³)", "tipo": "number", "min": 0, "step": 0.5, "default": 0 }
+      ]
+    }
+  }
+}
