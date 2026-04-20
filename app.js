@@ -1034,6 +1034,7 @@ function init() {
     mostrarLogin();
     return;
   }
+  esconderLogin();
   iniciarApp();
 }
 

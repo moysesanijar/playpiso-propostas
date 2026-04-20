@@ -21,10 +21,15 @@ PLAYPISO_COLORS = {
 
 PLAYPISO_FONT_STACK = "Poppins, Arial, sans-serif"
 
+_TEMPLATE = TEMPLATES_DIR / "template_final_tenis_playpiso.pptx"
+
 TEMPLATE_BY_TYPE = {
-    "Tênis Asfáltica": TEMPLATES_DIR / "template_final_tenis_playpiso.pptx",
-    "Tênis Asfáltica - Cushion": TEMPLATES_DIR / "template_final_tenis_playpiso.pptx",
-    "Tênis Saibro": TEMPLATES_DIR / "template_final_tenis_playpiso.pptx",
+    "Tênis Asfáltica":          _TEMPLATE,
+    "Tênis Asfáltica - Cushion": _TEMPLATE,
+    "Tênis Saibro":             _TEMPLATE,
+    "Futsal":                   _TEMPLATE,
+    "Beach Tennis":             _TEMPLATE,
+    "Poliesportiva":            _TEMPLATE,
 }
 
 GALVANIZACAO_OPTIONS = ["Eletrolítico", "A fogo"]
