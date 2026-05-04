@@ -307,7 +307,10 @@ function renderLista() {
       <div class="proposta-card ${selecionado}" onclick="app.selecionarProposta('${p.id}')">
         <div class="proposta-card-header">
           <span class="proposta-numero">${p.id}</span>
-          <span class="status-badge status-${p.status}">${statusLabel(p.status)}</span>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span class="status-badge status-${p.status}">${statusLabel(p.status)}</span>
+            <button class="proposta-del-btn" title="Apagar proposta" onclick="event.stopPropagation();app.deletarProposta('${p.id}')">×</button>
+          </div>
         </div>
         <div class="proposta-cliente">${p.proposal?.nome_cliente || '—'}</div>
         <div class="proposta-meta">${primeiroTipo} · ${totalQ} quadra${totalQ !== 1 ? 's' : ''} · ${formatDate(p.criado_em)}</div>
@@ -398,6 +401,25 @@ function renderDetalhe(p) {
       <div id="resultado-gerar-${p.id}" class="gerar-resultado"></div>
     </div>
   `;
+}
+
+async function deletarProposta(id) {
+  if (!confirm('Apagar esta proposta? Esta ação não pode ser desfeita.')) return;
+  try {
+    await api(`/api/propostas/${id}`, { method: 'DELETE' });
+    STATE.propostas = STATE.propostas.filter(p => p.id !== id);
+    if (STATE.propostaSelecionada?.id === id) {
+      STATE.propostaSelecionada = null;
+      document.getElementById('detalhe-vazio').style.display = '';
+      document.getElementById('detalhe-conteudo').style.display = 'none';
+    }
+    renderLista();
+    renderHistorico();
+    atualizarBadge();
+    showToast('Proposta apagada', 'sucesso');
+  } catch (err) {
+    showToast('Erro ao apagar: ' + err.message, 'erro');
+  }
 }
 
 async function mudarStatus(id, novoStatus) {
@@ -495,17 +517,22 @@ function renderHistorico() {
   container.innerHTML = lista.map(p => {
     const pr = p.proposal || {};
     const totalQ = p.items?.reduce((s, i) => s + (i.quantidade || 1), 0) || 0;
+    const solicitante = pr.vendedor || p.criado_por?.nome || '—';
+    const pdfBadge = p.ppt_gerado_em
+      ? `<span class="hist-badge hist-badge-pdf" title="PDF gerado em ${formatDate(p.ppt_gerado_em)}">PDF ${formatDate(p.ppt_gerado_em)}</span>`
+      : `<span class="hist-badge hist-badge-sem-pdf">Sem PDF</span>`;
     return `
       <div class="historico-card" onclick="app.abrirHistoricoDetalhe('${p.id}')">
         <div class="historico-card-info">
           <div class="historico-card-num">${p.id}</div>
           <div class="historico-card-cliente">${pr.nome_cliente || '—'}</div>
           <div class="historico-card-meta">${pr.local_obra || '—'} · ${totalQ} quadra${totalQ !== 1 ? 's' : ''}</div>
+          <div class="historico-card-datas">
+            <span>Solicitado por <strong>${solicitante}</strong> em ${formatDate(p.criado_em)}</span>
+            ${pdfBadge}
+          </div>
         </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
-          <span class="status-badge status-${p.status}">${statusLabel(p.status)}</span>
-          <span style="font-size:11px;color:var(--texto-terciario)">${formatDate(p.criado_em)}</span>
-        </div>
+        <span class="status-badge status-${p.status}">${statusLabel(p.status)}</span>
       </div>
     `;
   }).join('');
@@ -602,7 +629,11 @@ function renderItemCard(item, index) {
         <select class="quadra-tipo-select" data-index="${index}" data-field="tipo_quadra" onchange="app.onTipoChange(${index}, this.value)">
           ${tiposOptions}
         </select>
-        <span class="quadra-area-display">Área: <strong>${formatArea(area)}</strong></span>
+        <label class="quadra-area-display">Área m²:
+        <input type="number" class="quadra-area-input" data-index="${index}" data-field="area_total"
+          min="0" step="0.01" value="${item.area_total !== undefined && item.area_total !== '' ? item.area_total : area || ''}"
+          placeholder="0" />
+      </label>
         <button class="quadra-remove" onclick="app.removeItem(${index})" title="Remover quadra">×</button>
       </div>
       <div class="quadra-body" id="quadra-body-${index}">
@@ -679,6 +710,10 @@ function renderCampo(campo, item, index) {
 }
 
 function calcularAreaItem(item) {
+  // Se o orçamentista definiu uma área manual, usa ela
+  if (item.area_total !== undefined && item.area_total !== '' && item.area_total > 0) {
+    return parseFloat(item.area_total);
+  }
   const c = parseFloat(item.comprimento) || 0;
   const l = parseFloat(item.largura) || 0;
   const q = parseInt(item.quantidade) || 1;
@@ -761,8 +796,12 @@ function autoFillLinked(index, changedField, value) {
 function updateAreaDisplay(index) {
   const item = STATE.form.items[index];
   const area = calcularAreaItem(item);
-  const card = document.querySelector(`[data-item-index="${index}"] .quadra-area-display`);
-  if (card) card.innerHTML = `Área: <strong>${formatArea(area)}</strong>`;
+  // Atualiza o input de área com o valor calculado e salva no state
+  const input = document.querySelector(`[data-item-index="${index}"] .quadra-area-input`);
+  if (input) {
+    input.value = area || '';
+    STATE.form.items[index].area_total = area;
+  }
 }
 
 function updateConditionals(index) {
@@ -1053,6 +1092,7 @@ window.app = {
   selecionarProposta,
   setFiltro,
   mudarStatus,
+  deletarProposta,
   gerarProposta,
   abrirHistoricoDetalhe,
   filtrarHistorico,
