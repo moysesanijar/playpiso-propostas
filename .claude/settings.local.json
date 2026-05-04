@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(venv/bin/python -m pip install -r requirements.txt)",
+      "Bash(venv/bin/python -m streamlit run app.py)",
+      "Bash(kill %1)",
+      "Bash(wait)",
+      "Bash(venv/bin/python -c \"import pptx; print\\('pptx ok'\\)\")",
+      "Bash(ls venv/bin/python*)",
+      "Bash(venv/bin/python3 --version)",
+      "Bash(venv/bin/python3 -c \"import pptx; print\\('ok'\\)\")",
+      "Bash(venv/bin/python -m streamlit run app.py --server.headless true)",
+      "Bash(wc -l /Users/moysesanijar/Desktop/Work/Playpiso/PlayAI/Playpiso-Propostas/services/*.py)",
+      "Bash(npm install *)",
+      "Bash(PYTHONUNBUFFERED=1 venv/bin/python3 services/generate_wrapper.py)",
+      "Bash(timeout 10 venv/bin/python3 -c \"import sys; sys.path.insert\\(0, '.'\\); import services.config; print\\('config OK'\\)\")",
+      "Bash(node server/index.js)",
+      "Bash(npm --version)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(curl -s http://localhost:3000/api/propostas)",
+      "Bash(/Users/moysesanijar/Desktop/Work/Playpiso/PlayAI/Playpiso-Propostas/venv/bin/python3 -c \"import pptx; print\\('pptx OK:', pptx.__version__\\)\")",
+      "Bash(python3 -m venv venv)",
+      "Bash(venv/bin/pip install *)",
+      "Bash(venv/bin/python3 -c ' *)",
+      "Bash(timeout 30 /Users/moysesanijar/Desktop/Work/Playpiso/PlayAI/Playpiso-Propostas/venv/bin/python3 -c \"import pptx; print\\('OK'\\)\")",
+      "Bash(gtimeout 30 /Users/moysesanijar/Desktop/Work/Playpiso/PlayAI/Playpiso-Propostas/venv/bin/python3 -c \"import pptx; print\\('OK'\\)\")",
+      "Bash(xattr services/generate_wrapper.py)",
+      "Bash(xattr /Users/moysesanijar/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/bin/python3)",
+      "Bash(python3 -c ' *)",
+      "Bash(venv/bin/python3 -W all services/generate_wrapper.py)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/)",
+      "Bash(curl -s -X POST http://localhost:3000/api/auth/register -H 'Content-Type: application/json' -d '{\"nome\":\"Teste Silva\",\"email\":\"teste@gmail.com\",\"senha\":\"123456\"}')",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('register gmail:', d.get\\('error','?'\\)\\)\")",
+      "Bash(curl -s -X POST http://localhost:3000/api/auth/register -H 'Content-Type: application/json' -d '{\"nome\":\"Joao Mello\",\"email\":\"joao@playpiso.com.br\",\"senha\":\"123456\"}')",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('register playpiso ok:', d.get\\('ok'\\), 'token:', bool\\(d.get\\('token'\\)\\)\\)\")",
+      "Bash(curl -s -X POST http://localhost:3000/api/auth/login -H 'Content-Type: application/json' -d '{\"email\":\"joao@playpiso.com.br\",\"senha\":\"123456\"}')",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('login ok:', d.get\\('ok'\\), 'user:', d.get\\('user',{}\\).get\\('nome'\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('propostas sem token:', d.get\\('error','?'\\)\\)\" kill %1)"
+    ]
+  }
+}
