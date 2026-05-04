@@ -3,7 +3,7 @@ const { Pool } = require('pg');
 // DATABASE_URL é injetada automaticamente pelo Railway ao adicionar o plugin PostgreSQL
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  ssl: process.env.DATABASE_URL?.includes('sslmode=require') ? { rejectUnauthorized: false } : false,
 });
 
 /**
