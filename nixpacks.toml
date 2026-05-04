@@ -1,10 +1,9 @@
-[phases.setup]
-nixPkgs = ["nodejs_20", "python312", "python312Packages.pip"]
+providers = ["node", "python"]
 
 [phases.install]
 cmds = [
-  "npm ci",
-  "python3 -m venv venv",
+  "npm install",
+  "python -m venv venv",
   "venv/bin/pip install -r requirements.txt"
 ]
 
